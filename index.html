@@ -3,6 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<meta property="og:type" content="website">
+<meta property="og:title" content="コリドール">
+<meta property="og:description" content="2〜4人で遊べるボードゲーム">
 
 <meta property="og:type" content="website">
 <meta property="og:title" content="コリドール">
@@ -17,52 +20,40 @@
 
 <title>コリドール オンライン</title>
 <style>
-:root{
-  --bg:#0f0f1a;--surface:#1a1a2e;--s2:#16213e;
-  --red:#e94560;--green:#2ecc71;--text:#eaeaea;--dim:#777;
-}
+:root{--bg:#0f0f1a;--surface:#1a1a2e;--s2:#16213e;--red:#e94560;--green:#2ecc71;--text:#eaeaea;--dim:#777;}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;user-select:none}
-body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;
-  min-height:100dvh;display:flex;flex-direction:column;align-items:center;overflow-x:hidden}
-#lobby{display:flex;flex-direction:column;align-items:center;justify-content:center;
-  min-height:100dvh;gap:14px;padding:24px;width:100%;max-width:400px}
+body{background:var(--bg);color:var(--text);font-family:'Segoe UI',system-ui,sans-serif;min-height:100dvh;display:flex;flex-direction:column;align-items:center;overflow-x:hidden}
+#lobby{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:100dvh;gap:14px;padding:24px;width:100%;max-width:400px}
 .logo{font-size:2.6rem;font-weight:900;letter-spacing:-2px;text-align:center}
 .logo em{color:var(--red);font-style:normal}
 .logo-sub{font-size:.72rem;color:var(--dim);letter-spacing:4px;text-transform:uppercase;text-align:center;margin-top:2px}
 .card{background:var(--surface);border-radius:16px;padding:18px;width:100%;display:flex;flex-direction:column;gap:10px}
 .lbl{font-size:.7rem;letter-spacing:2px;text-transform:uppercase;color:var(--dim)}
-input,select{background:var(--bg);border:1.5px solid #333;border-radius:10px;color:var(--text);
-  font-size:1rem;padding:12px 14px;width:100%;outline:none;transition:border-color .2s;-webkit-appearance:none}
+input,select{background:var(--bg);border:1.5px solid #333;border-radius:10px;color:var(--text);font-size:1rem;padding:12px 14px;width:100%;outline:none;transition:border-color .2s;-webkit-appearance:none}
 input:focus,select:focus{border-color:var(--red)}
-.btn{background:var(--red);color:#fff;border:none;border-radius:10px;padding:14px;font-size:.95rem;
-  font-weight:700;cursor:pointer;width:100%;transition:opacity .12s,transform .1s;display:block;text-align:center}
+.btn{background:var(--red);color:#fff;border:none;border-radius:10px;padding:14px;font-size:.95rem;font-weight:700;cursor:pointer;width:100%;transition:opacity .12s,transform .1s;display:block;text-align:center}
 .btn:active{opacity:.75;transform:scale(.97)}
 .btn.sec{background:var(--s2);border:1.5px solid #444;color:var(--text)}
 .btn.go{background:var(--green);color:#111}
 .btn[disabled]{opacity:.4;pointer-events:none}
 .divider{display:flex;align-items:center;gap:10px;color:var(--dim);font-size:.78rem}
 .divider::before,.divider::after{content:'';flex:1;height:1px;background:#333}
-#room-code{font-size:2.2rem;font-weight:900;letter-spacing:8px;text-align:center;
-  color:var(--red);padding:10px;background:var(--bg);border-radius:8px;cursor:pointer}
+#room-code{font-size:2.2rem;font-weight:900;letter-spacing:8px;text-align:center;color:var(--red);padding:10px;background:var(--bg);border-radius:8px;cursor:pointer}
 #player-list{display:flex;flex-direction:column;gap:6px}
 .pbadge{display:flex;align-items:center;gap:10px;background:var(--bg);border-radius:8px;padding:9px 12px;font-size:.88rem}
 .pdot{width:11px;height:11px;border-radius:50%;flex-shrink:0}
 #err-msg{color:var(--red);font-size:.82rem;text-align:center;min-height:16px}
-/* GAME */
 #game{display:none;flex-direction:column;align-items:center;width:100%;min-height:100dvh;padding:8px 6px 24px;gap:6px}
 #top-bar{width:100%;max-width:520px;display:flex;align-items:stretch;gap:8px}
 #turn-box{flex:1;background:var(--surface);border-radius:10px;padding:8px 12px;display:flex;align-items:center;gap:9px;min-width:0;overflow:hidden}
 #turn-dot{width:14px;height:14px;border-radius:50%;flex-shrink:0;transition:background .3s}
 #turn-name{font-weight:800;font-size:.92rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 #turn-sub{font-size:.66rem;color:var(--dim);margin-top:1px}
-#timer-box{background:var(--surface);border-radius:10px;padding:8px 14px;font-size:1.25rem;
-  font-weight:900;min-width:54px;text-align:center;font-variant-numeric:tabular-nums;
-  display:flex;align-items:center;justify-content:center;transition:color .3s}
+#timer-box{background:var(--surface);border-radius:10px;padding:8px 14px;font-size:1.25rem;font-weight:900;min-width:54px;text-align:center;font-variant-numeric:tabular-nums;display:flex;align-items:center;justify-content:center;transition:color .3s}
 #timer-box.hot{color:var(--red);animation:pulse .85s infinite}
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.2}}
 #players-bar{width:100%;max-width:520px;display:grid;gap:5px}
-.pcard{background:var(--surface);border-radius:10px;padding:7px 10px;display:flex;align-items:center;
-  gap:7px;position:relative;overflow:hidden;transition:box-shadow .25s}
+.pcard{background:var(--surface);border-radius:10px;padding:7px 10px;display:flex;align-items:center;gap:7px;position:relative;overflow:hidden;transition:box-shadow .25s}
 .pcard.active{box-shadow:0 0 0 2px var(--pc,#fff)}
 .pcard.active::after{content:'';position:absolute;inset:0;background:var(--pc,#fff);opacity:.08;pointer-events:none}
 .pcard.out{opacity:.28}
@@ -73,29 +64,22 @@ input:focus,select:focus{border-color:var(--red)}
 .pip.gone{opacity:.12}
 .pc-rank{font-size:.75rem;color:var(--green);font-weight:700;flex-shrink:0}
 #mode-bar{width:100%;max-width:520px;display:grid;grid-template-columns:1fr 1fr;gap:6px}
-.mbtn{background:var(--surface);border:2px solid transparent;border-radius:10px;color:var(--dim);
-  padding:10px;font-size:.85rem;font-weight:700;cursor:pointer;display:flex;
-  align-items:center;justify-content:center;gap:5px;transition:all .15s;-webkit-appearance:none}
+.mbtn{background:var(--surface);border:2px solid transparent;border-radius:10px;color:var(--dim);padding:10px;font-size:.85rem;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:5px;transition:all .15s;-webkit-appearance:none}
 .mbtn.on{border-color:var(--red);color:var(--text);background:var(--s2)}
 .mbtn[disabled]{opacity:.28;pointer-events:none}
 #wall-hint{width:100%;max-width:520px;text-align:center;font-size:.76rem;color:var(--dim);min-height:17px}
 #board-wrap{touch-action:none;flex-shrink:0}
 canvas{display:block;border-radius:12px;touch-action:none}
-#wconfirm{display:none;position:fixed;bottom:16px;left:50%;transform:translateX(-50%);
-  background:var(--s2);border:1.5px solid #555;border-radius:16px;padding:16px 18px;
-  z-index:100;width:calc(100% - 28px);max-width:380px;box-shadow:0 8px 40px rgba(0,0,0,.75)}
+#wconfirm{display:none;position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:var(--s2);border:1.5px solid #555;border-radius:16px;padding:16px 18px;z-index:100;width:calc(100% - 28px);max-width:380px;box-shadow:0 8px 40px rgba(0,0,0,.75)}
 #wconfirm p{font-size:.88rem;margin-bottom:12px;text-align:center}
 #wconfirm .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-#result{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:200;
-  align-items:center;justify-content:center;flex-direction:column;gap:18px;padding:24px}
+#result{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:200;align-items:center;justify-content:center;flex-direction:column;gap:18px;padding:24px}
 #result.show{display:flex}
 #result-title{font-size:1.8rem;font-weight:900;text-align:center}
 .rlist{display:flex;flex-direction:column;gap:8px;width:100%;max-width:300px}
 .ritem{display:flex;align-items:center;gap:12px;background:var(--surface);border-radius:10px;padding:12px 16px}
 .rnum{font-size:1.2rem;font-weight:900;width:36px}
-#toast{position:fixed;top:14px;left:50%;transform:translateX(-50%);background:#222;border:1px solid #444;
-  border-radius:10px;padding:9px 18px;font-size:.82rem;z-index:500;opacity:0;transition:opacity .25s;
-  pointer-events:none;white-space:nowrap;max-width:88vw;text-align:center}
+#toast{position:fixed;top:14px;left:50%;transform:translateX(-50%);background:#222;border:1px solid #444;border-radius:10px;padding:9px 18px;font-size:.82rem;z-index:500;opacity:0;transition:opacity .25s;pointer-events:none;white-space:nowrap;max-width:88vw;text-align:center}
 #toast.show{opacity:1}
 </style>
 </head>
@@ -180,18 +164,13 @@ canvas{display:block;border-radius:12px;touch-action:none}
 
 <div id="toast"></div>
 
-<script>
-// ★ type="module" を外してシンプルなscriptに。
-// Firebase CDN (compat版) を使う
-</script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
 <script>
-// ── Firebase init ──
 firebase.initializeApp({
   apiKey:"AIzaSyDuSTxcieRgvZFFa4-orr7kKG7WkZ9Z_UU",
   authDomain:"quoridor2.firebaseapp.com",
-  databaseURL:"https://quoridor2-default-rtdb.firebaseio.com",
+  databaseURL:"https://quoridor2-default-rtdb.asia-southeast1.firebasedatabase.app",
   projectId:"quoridor2",
   storageBucket:"quoridor2.firebasestorage.app",
   messagingSenderId:"852523004353",
@@ -216,11 +195,11 @@ const GOALS = {
 
 // ── 状態 ──
 const myId = 'p_'+Math.random().toString(36).slice(2,9);
-let myNick='', roomId=null, isHost=false;
-let roomRef=null, gameRef=null;
+let roomId=null, isHost=false;
+let roomRef=null, roomCb=null; // roomCb: off()するためのコールバック参照を保持
 let gs=null, gameStarted=false;
 let mode='move', pendingWall=null, hoverWall=null;
-let timerTick=null, lastTimerStart=0;
+let timerTick=null;
 
 const canvas = document.getElementById('board');
 const ctx = canvas.getContext('2d');
@@ -239,25 +218,10 @@ function clone(o){return JSON.parse(JSON.stringify(o));}
 function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
 function fixGs(g){
   if(!g) return g;
-  g.hWalls=g.hWalls||[]; g.vWalls=g.vWalls||[]; g.finOrder=g.finOrder||[];
+  g.hWalls=Array.isArray(g.hWalls)?g.hWalls:[];
+  g.vWalls=Array.isArray(g.vWalls)?g.vWalls:[];
+  g.finOrder=Array.isArray(g.finOrder)?g.finOrder:[];
   return g;
-}
-
-// ── ボタン（全関数定義後にバインド）──
-function bindButtons(){
-  document.getElementById('btn-create').onclick = createRoom;
-  document.getElementById('btn-join').onclick   = joinRoom;
-  document.getElementById('btn-leave').onclick  = leaveRoom;
-  document.getElementById('start-btn').onclick  = startGame;
-  document.getElementById('pcount-sel').onchange= updatePCount;
-  document.getElementById('btn-move').onclick   = ()=>setMode('move');
-  document.getElementById('btn-wall').onclick   = ()=>setMode('wall');
-  document.getElementById('btn-cancel-wall').onclick = cancelWall;
-  document.getElementById('btn-ok-wall').onclick     = confirmWall;
-  document.getElementById('btn-back').onclick        = ()=>location.reload();
-  document.getElementById('room-code').onclick = ()=>{
-    if(roomId && navigator.clipboard) navigator.clipboard.writeText(roomId).then(()=>toast('コピーしました！'));
-  };
 }
 
 // ── 部屋作成 ──
@@ -267,17 +231,16 @@ function createRoom(){
   if(!nick){showErr('ニックネームを入力してください');return;}
   const btn=document.getElementById('btn-create');
   btn.disabled=true; btn.textContent='作成中…';
-  myNick=nick; roomId=uid4(); isHost=true;
+  roomId=uid4(); isHost=true;
   roomRef=db.ref('rooms/'+roomId);
   roomRef.set({
     host:myId, status:'waiting', playerCount:2,
-    players:{[myId]:{name:nick,joinedAt:Date.now()}}
+    players:{[myId]:{name:nick, joinedAt:Date.now()}}
   }).then(()=>{
     openWait();
     startRoomListen();
   }).catch(e=>{
     showErr('エラー: '+e.message);
-    console.error(e);
     btn.disabled=false; btn.textContent='🎮 新しい部屋を作る';
   });
 }
@@ -291,21 +254,23 @@ function joinRoom(){
   if(code.length!==4){showErr('4文字のコードを入力してください');return;}
   const btn=document.getElementById('btn-join');
   btn.disabled=true; btn.textContent='接続中…';
-  myNick=nick; roomId=code; isHost=false;
+  roomId=code; isHost=false;
   roomRef=db.ref('rooms/'+roomId);
-  roomRef.once('value').then(snap=>{
+
+  // ★ async/await で書き直し（thenチェーンのreturn漏れバグを排除）
+  async function doJoin(){
+    const snap=await roomRef.once('value');
     if(!snap.exists()){showErr('部屋が見つかりません');btn.disabled=false;btn.textContent='参加する →';return;}
     const d=snap.val();
     if(d.status!=='waiting'){showErr('すでにゲームが開始されています');btn.disabled=false;btn.textContent='参加する →';return;}
     const cnt=Object.keys(d.players||{}).length;
     if(cnt>=(d.playerCount||2)){showErr('満員です');btn.disabled=false;btn.textContent='参加する →';return;}
-    return db.ref('rooms/'+roomId+'/players/'+myId).update({name:nick,joinedAt:Date.now()});
-  }).then(()=>{
+    await db.ref('rooms/'+roomId+'/players/'+myId).update({name:nick, joinedAt:Date.now()});
     openWait();
     startRoomListen();
-  }).catch(e=>{
+  }
+  doJoin().catch(e=>{
     showErr('エラー: '+e.message);
-    console.error(e);
     btn.disabled=false; btn.textContent='参加する →';
   });
 }
@@ -318,6 +283,7 @@ function openWait(){
 }
 
 function leaveRoom(){
+  stopRoomListen();
   if(roomRef) db.ref('rooms/'+roomId+'/players/'+myId).remove();
   location.reload();
 }
@@ -327,19 +293,28 @@ function updatePCount(){
   roomRef.update({playerCount:parseInt(document.getElementById('pcount-sel').value)});
 }
 
-// ── Room listener ──
+// ── Room listener（コールバック参照を保持してoff()できるように）──
 function startRoomListen(){
-  roomRef.on('value', snap=>{
+  stopRoomListen();
+  roomCb = roomRef.on('value', function onRoomValue(snap){
     if(!snap.exists()) return;
     const d=snap.val();
     if(d.status==='waiting'){
       renderWaiting(d);
     } else if(d.status==='playing' && d.game){
-      roomRef.off('value');
-      launchGame(fixGs(d.game));
+      // ★ まずリスナーを止めてからゲームへ
+      stopRoomListen();
+      launchGame(fixGs(clone(d.game)));
       startGameListen();
     }
   });
+}
+
+function stopRoomListen(){
+  if(roomRef && roomCb){
+    roomRef.off('value', roomCb);
+    roomCb=null;
+  }
 }
 
 function renderWaiting(d){
@@ -358,42 +333,61 @@ function renderWaiting(d){
   }
 }
 
-// ── Game listen ──
+// ── Game listener ──
 function startGameListen(){
-  gameRef=db.ref('rooms/'+roomId+'/game');
-  gameRef.on('value',snap=>{
+  db.ref('rooms/'+roomId+'/game').on('value',snap=>{
     if(!snap.exists()) return;
-    gs=fixGs(snap.val());
+    const newGs=fixGs(clone(snap.val()));
+    gs=newGs;
     if(gameStarted) updateGameUI();
   });
 }
 
-// ── ゲーム開始 ──
+// ── ゲーム開始（ホストのみ）──
 function startGame(){
   if(!isHost) return;
   const btn=document.getElementById('start-btn');
   btn.disabled=true; btn.textContent='開始中…';
-  roomRef.once('value').then(snap=>{
+
+  async function doStart(){
+    const snap=await roomRef.once('value');
     const d=snap.val();
     const ps=Object.entries(d.players||{}).sort((a,b)=>a[1].joinedAt-b[1].joinedAt);
     const n=Math.min(ps.length,4);
-    if(n<2){toast('最低2人必要です');btn.disabled=false;btn.textContent='ゲーム開始 🚀';return;}
+    if(n<2){
+      toast('最低2人必要です');
+      btn.disabled=false; btn.textContent='ゲーム開始 🚀';
+      return;
+    }
     const shuffled=[...ps.slice(0,n)].sort(()=>Math.random()-.5);
     const wallC=WALL_N[n]||5;
     const players={};
     shuffled.forEach(([pid,p],i)=>{
-      players[pid]={name:p.name,ci:i,pos:STARTS[n][i],walls:wallC,goal:GOALS[n][i],rank:0,out:false};
+      players[pid]={
+        name:p.name, ci:i,
+        pos:{r:STARTS[n][i].r, c:STARTS[n][i].c},
+        walls:wallC,
+        goal:{type:GOALS[n][i].type, val:GOALS[n][i].val},
+        rank:0, out:false
+      };
     });
-    return roomRef.update({
+    const game={
+      players,
+      order:shuffled.map(([pid])=>pid),
+      ti:0,
+      hWalls:null, vWalls:null,
       status:'playing',
-      game:{
-        players,
-        order:shuffled.map(([pid])=>pid),
-        ti:0, hWalls:null, vWalls:null,
-        status:'playing', firstDone:false, timerStart:0, finOrder:null
-      }
-    });
-  }).catch(e=>{toast('エラー: '+e.message);console.error(e);btn.disabled=false;btn.textContent='ゲーム開始 🚀';});
+      firstDone:false,
+      timerStart:0,
+      finOrder:null
+    };
+    await roomRef.update({status:'playing', game});
+  }
+
+  doStart().catch(e=>{
+    toast('エラー: '+e.message);
+    btn.disabled=false; btn.textContent='ゲーム開始 🚀';
+  });
 }
 
 // ── ゲーム起動 ──
@@ -467,7 +461,6 @@ function onCvMouseMove(e){
   if(!gs||mode!=='wall') return;
   const{px,py}=getXY(e,false); hoverWall=pendingWall||pixToWall(px,py);
 }
-
 function interact(px,py){
   if(!gs||gs.status!=='playing') return;
   if(gs.order[gs.ti]!==myId){toast('あなたのターンではありません');return;}
@@ -488,10 +481,8 @@ function interact(px,py){
 }
 
 // ── 壁判定 ──
-// hWall(r,c): row r～r+1 間, col c と c+1 にまたがる横壁
-// vWall(r,c): col c～c+1 間, row r と r+1 にまたがる縦壁
-function hasH(g,r,c){return Array.isArray(g.hWalls)&&g.hWalls.some(w=>w.r===r&&w.c===c);}
-function hasV(g,r,c){return Array.isArray(g.vWalls)&&g.vWalls.some(w=>w.r===r&&w.c===c);}
+function hasH(g,r,c){return g.hWalls.some(w=>w.r===r&&w.c===c);}
+function hasV(g,r,c){return g.vWalls.some(w=>w.r===r&&w.c===c);}
 function isBlocked(g,r1,c1,r2,c2){
   if(r2===r1+1) return hasH(g,r1,c1)||hasH(g,r1,c1-1);
   if(r2===r1-1) return hasH(g,r1-1,c1)||hasH(g,r1-1,c1-1);
@@ -501,7 +492,7 @@ function isBlocked(g,r1,c1,r2,c2){
 }
 function validMoves(g,pid){
   const p=g.players[pid]; if(!p||p.out) return[];
-  const{r,c}=p.pos, D=[[-1,0],[1,0],[0,-1],[0,1]];
+  const{r,c}=p.pos,D=[[-1,0],[1,0],[0,-1],[0,1]];
   const others=Object.entries(g.players).filter(([id,pp])=>id!==pid&&!pp.out).map(([,pp])=>pp.pos);
   const seen=new Set(),res=[];
   function add(r,c){const k=r+','+c;if(!seen.has(k)){seen.add(k);res.push({r,c});}}
@@ -548,8 +539,8 @@ function canPlace(g,wall){
     if(hasH(g,wall.r+1,wall.c)) return false;
   }
   const sim={...g,
-    hWalls:wall.dir==='h'?[...g.hWalls,wall]:g.hWalls,
-    vWalls:wall.dir==='v'?[...g.vWalls,wall]:g.vWalls
+    hWalls:wall.dir==='h'?[...g.hWalls,{r:wall.r,c:wall.c,dir:'h'}]:g.hWalls,
+    vWalls:wall.dir==='v'?[...g.vWalls,{r:wall.r,c:wall.c,dir:'v'}]:g.vWalls
   };
   for(const[pid,p]of Object.entries(g.players)){
     if(p.out||p.rank>0) continue;
@@ -561,7 +552,7 @@ function canPlace(g,wall){
 // ── アクション ──
 function doMove(pos){
   if(!gs) return;
-  const g=clone(gs); fixGs(g);
+  const g=fixGs(clone(gs));
   const p=g.players[myId]; p.pos={r:pos.r,c:pos.c};
   const{type,val}=p.goal;
   if(type==='row'&&pos.r===val||type==='col'&&pos.c===val){
@@ -577,9 +568,9 @@ function cancelWall(){
 }
 function confirmWall(){
   if(!pendingWall) return;
-  const g=clone(gs); fixGs(g);
-  const w={r:pendingWall.r,c:pendingWall.c,dir:pendingWall.dir};
-  if(w.dir==='h') g.hWalls.push(w); else g.vWalls.push(w);
+  const g=fixGs(clone(gs));
+  if(pendingWall.dir==='h') g.hWalls.push({r:pendingWall.r,c:pendingWall.c,dir:'h'});
+  else                       g.vWalls.push({r:pendingWall.r,c:pendingWall.c,dir:'v'});
   g.players[myId].walls--;
   document.getElementById('wconfirm').style.display='none';
   document.getElementById('wall-hint').textContent='';
@@ -592,13 +583,18 @@ function advanceTurn(g){
   const alive=g.order.filter(pid=>!g.players[pid]?.out);
   if(alive.length<=1){
     if(alive.length===1){
-      const pid=alive[0]; g.players[pid].rank=g.finOrder.length+1;
-      g.players[pid].out=true; g.finOrder.push(pid);
+      const pid=alive[0];
+      g.players[pid].rank=g.finOrder.length+1;
+      g.players[pid].out=true;
+      g.finOrder.push(pid);
     }
     g.status='finished'; return;
   }
   let ni=(g.ti+1)%g.order.length;
-  for(let i=0;i<g.order.length;i++){if(!g.players[g.order[ni]]?.out) break; ni=(ni+1)%g.order.length;}
+  for(let i=0;i<g.order.length;i++){
+    if(!g.players[g.order[ni]]?.out) break;
+    ni=(ni+1)%g.order.length;
+  }
   g.ti=ni;
 }
 function pushGame(g){
@@ -606,7 +602,9 @@ function pushGame(g){
   if(!d.hWalls||!d.hWalls.length) d.hWalls=null;
   if(!d.vWalls||!d.vWalls.length) d.vWalls=null;
   if(!d.finOrder||!d.finOrder.length) d.finOrder=null;
-  db.ref('rooms/'+roomId+'/game').set(d).catch(e=>{toast('送信エラー: '+e.message);console.error(e);});
+  db.ref('rooms/'+roomId+'/game').set(d).catch(e=>{
+    toast('送信エラー: '+e.message); console.error(e);
+  });
 }
 
 // ── タイマー ──
@@ -615,11 +613,10 @@ function resetTimer(){
   const box=document.getElementById('timer-box');
   if(!gs||!gs.firstDone||!gs.timerStart){box.textContent='30';box.classList.remove('hot');return;}
   const activePid=gs.order[gs.ti];
-  const snap_ts=gs.timerStart;
-  lastTimerStart=snap_ts;
+  const ts=gs.timerStart;
   const tick=()=>{
-    if(!gs||gs.timerStart!==snap_ts){clearInterval(timerTick);return;}
-    const left=Math.max(0,Math.ceil(30-(Date.now()-snap_ts)/1000));
+    if(!gs||gs.timerStart!==ts){clearInterval(timerTick);return;}
+    const left=Math.max(0,Math.ceil(30-(Date.now()-ts)/1000));
     box.textContent=left; box.classList.toggle('hot',left<=10);
     if(left<=0&&activePid===myId){
       clearInterval(timerTick);
@@ -630,17 +627,17 @@ function resetTimer(){
   tick(); timerTick=setInterval(tick,300);
 }
 
-// ── UI ──
+// ── UI更新 ──
 function updateGameUI(){
   if(!gs) return;
   if(gs.status==='finished'){showResult();return;}
-  const activePid=gs.order[gs.ti], ap=gs.players[activePid], isMe=activePid===myId;
+  const activePid=gs.order[gs.ti],ap=gs.players[activePid],isMe=activePid===myId;
   document.getElementById('turn-dot').style.background=ap?COLORS[ap.ci]:'#888';
   document.getElementById('turn-name').textContent=isMe?'あなたのターン！':esc(ap?.name||'')+'さん';
   document.getElementById('turn-sub').textContent=isMe?'行動してください':'のターン';
   document.getElementById('btn-move').disabled=!isMe;
   document.getElementById('btn-wall').disabled=!isMe||(gs.players[myId]?.walls<=0);
-  const n=gs.order.length, wMax=WALL_N[n]||5;
+  const n=gs.order.length,wMax=WALL_N[n]||5;
   const pb=document.getElementById('players-bar');
   pb.style.gridTemplateColumns=n===2?'1fr 1fr':n===3?'1fr 1fr 1fr':'1fr 1fr 1fr 1fr';
   pb.innerHTML=gs.order.map(pid=>{
@@ -695,7 +692,6 @@ function draw(){
       if(isMv){ctx.fillStyle=`rgba(255,255,255,${blink*0.65})`;ctx.beginPath();ctx.arc(x+CELL/2,y+CELL/2,CELL*0.17,0,Math.PI*2);ctx.fill();}
     }
   }
-  // ゴールライン
   ctx.setLineDash([5,4]); ctx.lineWidth=2.5;
   for(const pid of gs.order){
     const p=gs.players[pid]; if(p.out) continue;
@@ -729,8 +725,20 @@ function drawWall(w,color){
   ctx.fill();
 }
 
-// ── 起動 ──
-bindButtons();
+// ── ボタンバインド（最後に実行）──
+document.getElementById('btn-create').onclick     = createRoom;
+document.getElementById('btn-join').onclick       = joinRoom;
+document.getElementById('btn-leave').onclick      = leaveRoom;
+document.getElementById('start-btn').onclick      = startGame;
+document.getElementById('pcount-sel').onchange    = updatePCount;
+document.getElementById('btn-move').onclick       = function(){setMode('move');};
+document.getElementById('btn-wall').onclick       = function(){setMode('wall');};
+document.getElementById('btn-cancel-wall').onclick= cancelWall;
+document.getElementById('btn-ok-wall').onclick    = confirmWall;
+document.getElementById('btn-back').onclick       = function(){location.reload();};
+document.getElementById('room-code').onclick      = function(){
+  if(roomId && navigator.clipboard) navigator.clipboard.writeText(roomId).then(()=>toast('コピーしました！'));
+};
 </script>
 </body>
 </html>
